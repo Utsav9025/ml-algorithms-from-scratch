@@ -1,7 +1,7 @@
 
 # Assignment - 2 : [20 Marks]
 
-## 1. Import required libraries and load the load_Wine Dataset from scikit-learn[MARKS 0]
+## 1. Import required libraries and load the load_Wine Dataset from scikit-learn
 
 import numpy as np
 import pandas as pd
@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
 
-"""## 2.Exploratory Data Analysis[2 Marks]
+"""## 2.Exploratory Data Analysis
 
 Perform the following analyses.
 
@@ -83,7 +83,7 @@ plt.show()
 * total_phenols and flavanoids are strongly positively correlated.
 * flavanoids and od280/od315_of_diluted_wines also show strong positive correlation.
 
-## 3. Perform Feature Scaling and One-Hot Encoding[1 Marks]
+## 3. Perform Feature Scaling and One-Hot Encoding
 
 - Use StandardScaler
 
@@ -123,7 +123,7 @@ y = df[["target"]]
 y_encoded = encoder.fit_transform(y)
 print(y_encoded)
 
-"""## 5. Split the data into training, validation, and test sets (70%-15%-15%). [Marks 1]"""
+"""## 5. Split the data into training, validation, and test sets (70%-15%-15%). """
 
 X_train, X_temp, y_train, y_temp = train_test_split(X_scaled,y_encoded,test_size=0.30,random_state=42,shuffle=True)
 X_val, X_test, y_val, y_test = train_test_split(X_temp,y_temp,test_size=0.50,random_state=42,shuffle=True)
@@ -135,94 +135,25 @@ y_train = np.array(y_train)
 y_val = np.array(y_val)
 y_test = np.array(y_test)
 
-"""# 6. Implement Elastic-Net Softmax Regression from Scratch [6 Marks]
+"""# 6. Implement Elastic-Net Softmax Regression from Scratch
 
 In this step, you will implement an **Elastic-Net Regularized Softmax Regression** model from scratch using **Gradient Descent**. **Do not use any machine learning library** (e.g., Scikit-learn, TensorFlow, or PyTorch) for model training.
 
 Your implementation must include the following components.
 
----
-
 ## (a) Softmax Function
-
-Implement the **Softmax activation function** to convert the raw logits into class probabilities.
-
-The Softmax function should satisfy the following properties:
-
-- The probability of each class lies between **0 and 1**.
-- The sum of probabilities for each sample should be **equal to 1**.
-
----
 
 ## (b) Cross-Entropy Loss
 
-Implement the **Multiclass Cross-Entropy Loss** to measure the difference between the predicted probabilities and the true class labels.
-
-Your implementation should compute the average loss over all training samples.
-
----
-
 ## (c) L1 Regularization (Lasso)
-
-Extend the loss function by adding an **L1 Regularization** term.
-
-The L1 penalty is defined as
-
-$$
-L_{L1}=\lambda_1\sum_{i,j}|W_{ij}|
-$$
-
-where
-
-- $W$ is the weight matrix.
-- $\lambda_1$ is the L1 regularization parameter.
-
----
 
 ## (d) L2 Regularization (Ridge)
 
-Further extend the loss function by adding an **L2 Regularization** term.
-
-The L2 penalty is defined as
-
-$$
-L_{L2}=\frac{\lambda_2}{2}\sum_{i,j}W_{ij}^{2}
-$$
-
-where
-
-- $W$ is the weight matrix.
-- $\lambda_2$ is the L2 regularization parameter.
-
----
-
 ## (e) Gradient of L1 Regularization
-
-Implement the gradient of the L1 regularization term.
-
-The gradient is given by
-
-$$
-\frac{\partial |W|}{\partial W}=\operatorname{sign}(W)
-$$
-
----
 
 ## (f) Gradient of L2 Regularization
 
-Implement the gradient of the L2 regularization term.
-
-The gradient is given by
-
-$$
-\frac{\partial}{\partial W}\left(\frac{\lambda_2}{2}\|W\|_2^2\right)=\lambda_2W
-$$
-
----
-
 ## (g) Gradient Descent Optimization
-
-Implement the complete **Gradient Descent** algorithm for training the model.
 
 During each training epoch, your implementation must perform the following steps:
 
@@ -356,7 +287,7 @@ for epoch in range(epochs):
     val_losses.append(val_loss)
 
 """
-## 8. Plot Learning Curve[1 Mark]
+## 8. Plot Learning Curve
 
 - Plot Training Loss and Validation Loss
 
@@ -377,7 +308,7 @@ Overfitting: The model also does not show significant overfitting because the tr
 
 Overall: The learning curves indicate that the model has a good fit to the data, with no clear signs of severe underfitting or overfitting.
 
-## 9. Predict on test set[1 Mark]
+## 9. Predict on test set
  - display actual and predicted class
 """
 
@@ -408,7 +339,7 @@ print("Predicted:", y_pred)
 print("Correct predictions:",np.sum(y_actual == y_pred))
 print("Total predictions:",len(y_actual))
 
-"""## 11. Plot the confusion matrix, Classification report and interpret the results.[1 Marks]"""
+"""## 11. Plot the confusion matrix, Classification report and interpret the results."""
 
 cm = confusion_matrix(y_actual, y_pred)
 print(cm)
@@ -417,7 +348,7 @@ print(classification_report(y_actual, y_pred))
 
 """The confusion matrix shows that all test samples are correctly classified with no misclassification between the three classes,the classification report also shows precision, recall, and f1-score of 1 for all classes,that means the model achieved perfect classification performance on the test set.
 
-## 12. Perform the Sklearn Implementation and Compare the both model.[1 Marks]
+## 12. Perform the Sklearn Implementation and Compare the both model.
 """
 
 y_train_c = np.argmax(y_train, axis=1)
@@ -447,7 +378,7 @@ print("Precision       ", precision, "       ", precision1)
 print("Recall          ", recall, "       ", recall1)
 print("F1 Score        ", f1, "       ", f11)
 
-"""# 13: Effect of Regularization[3 Marks]
+"""# 13: Effect of Regularization
 
 In this section, analyze the effect of different regularization techniques on the performance of the **Softmax Regression** model.
 
@@ -487,8 +418,8 @@ Train the model using **both L1 and L2 Regularization**.
 
 **Hyperparameters**
 
-- L1 Regularization ($\lambda_1$) = **0.01**
-- L2 Regularization ($\lambda_2$) = **0.01**
+- L1 Regularization Lamda= **0.01**
+- L2 Regularization Lamda= **0.01**
 
 Observe the combined effect of L1 and L2 regularization on the model.
 
@@ -504,18 +435,6 @@ For each configuration, compute and compare:
 - F1-Score
 - Training Loss
 - Validation Loss
-
-Present your results in the following table.
-
-| Model | Accuracy | Precision | Recall | F1-Score | Training Loss | Validation Loss |
-|--------|---------:|----------:|--------:|---------:|--------------:|----------------:|
-| No Regularization | | | | | | |
-| L2 Regularization | | | | | | |
-| Elastic-Net Regularization | | | | | | |
-
----
-
-
 """
 
 def train_model(X_train, y_train, X_val, y_val, lambda1, lambda2):
@@ -637,7 +556,7 @@ results = pd.DataFrame({
 
 print(results)
 
-"""## 14. Analysis[1 Marks]
+"""## 14. Analysis
 
 Based on the experimental results, answer the following questions.
 
