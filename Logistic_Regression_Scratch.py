@@ -1,6 +1,4 @@
 
-# Assignment - 2 : [20 Marks]
-
 ## 1. Import required libraries and load the load_Wine Dataset from scikit-learn
 
 import numpy as np
