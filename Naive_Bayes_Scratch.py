@@ -10,7 +10,7 @@ Original file is located at
 ### SMS Spam Classification
 **Total Marks: 20**
 
-### <font color = "orange"> Q1. Load the SMS Spam Collection dataset from: https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial/master/data/sms.tsv (1 Mark)
+### <font color = "orange"> Q1. Load the SMS Spam Collection dataset from: https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial/master/data/sms.tsv
 """
 
 import pandas as pd
@@ -26,13 +26,13 @@ print(df.info())
 
 df.shape
 
-"""### <font color = "orange"> Q2. Check for and handle duplicate entries and missing values in the dataset. (2 Marks)"""
+"""### Check for and handle duplicate entries and missing values in the dataset. """
 
 df.duplicated().sum()
 
 df.drop_duplicates()
 
-"""### <font color = "orange"> Q3. Show the class distribution of the dataset and state whether the dataset is well balanced or not. (2 Marks)"""
+"""###Show the class distribution of the dataset and state whether the dataset is well balanced or not."""
 
 X = df["message"]
 y = df["label"]
@@ -44,7 +44,7 @@ plt.show()
 
 """By seeing the countplot we can clearly see that number of ham labels are more than the spam , so based on this we can say that they are not well distributed...
 
-### <font color = "orange"> Q4. Preprocess the message text (convert to lowercase and remove punctuation) so it's ready for vectorization. (2 Marks)
+###  Preprocess the message text (convert to lowercase and remove punctuation) so it's ready for vectorization. 
 """
 
 s = df.shape
@@ -59,22 +59,22 @@ for i in range(df.shape[0]):
     )
 df
 
-"""### <font color = "orange"> Q5. Split the dataset into training and test sets (80%-20%). (1 Mark)"""
+"""### Split the dataset into training and test sets (80%-20%)."""
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.20,random_state=42)
 
-"""##### <font color='pink'>We split on the raw text **before** vectorizing, so that the vocabulary used in Q6 is built only from the training set — fitting the vectorizer on the full dataset (train + test) would leak test-set vocabulary into training, which is a subtle form of data leakage.
+"""#####We split on the raw text **before** vectorizing, so that the vocabulary used in Q6 is built only from the training set — fitting the vectorizer on the full dataset (train + test) would leak test-set vocabulary into training, which is a subtle form of data leakage.
 
-### <font color = "orange"> Q6. Convert the preprocessed messages into count vectors (bag-of-words) using CountVectorizer, fitting only on the training data. (2 Marks)
+### Convert the preprocessed messages into count vectors (bag-of-words) using CountVectorizer, fitting only on the training data.
 """
 
 vectorizer = CountVectorizer(stop_words="english")
 X_train_vec = vectorizer.fit_transform(X_train)
 X_test_vec = vectorizer.transform(X_test)
 
-"""##### <font color='pink'>A **bag-of-words** representation turns each message into a vector of word counts against a fixed vocabulary — e.g. the message `"free entry free"` becomes a vector where the column for `"free"` has value 2, `"entry"` has value 1, and every other vocabulary word is 0. This is exactly the kind of count data Multinomial Naive Bayes is built for. We cap the vocabulary size and drop common English stopwords to keep the feature space manageable and focused on informative words.
+"""##### A **bag-of-words** representation turns each message into a vector of word counts against a fixed vocabulary — e.g. the message `"free entry free"` becomes a vector where the column for `"free"` has value 2, `"entry"` has value 1, and every other vocabulary word is 0. This is exactly the kind of count data Multinomial Naive Bayes is built for. We cap the vocabulary size and drop common English stopwords to keep the feature space manageable and focused on informative words.
 
-### <font color = "orange"> Q7. Design a Multinomial Naive Bayes classifier from scratch and fit it on the training set. (6 Marks)
+###Design a Multinomial Naive Bayes classifier from scratch and fit it on the training set. 
 
 ##### <font color='black'>**Idea:** Multinomial NB models each class $C$ as having its own word-usage distribution — feature $i$ (word $i$) occurs with probability $p_{C,i}$ within class $C$'s documents. For a document with word counts $x_1, \ldots, x_n$, the likelihood is:$$P(\mathbf{x} \mid C) \;\propto\; \prod_{i=1}^{n} p_{C,i}^{\,x_i}$$(The multinomial coefficient $\frac{(\sum_i x_i)!}{\prod_i x_i!}$ is dropped since it's the same for every class and doesn't affect which class has the highest posterior.) We estimate $p_{C,i}$ from training data with **Laplace (add-$\alpha$) smoothing**, so a word that never appeared in class $C$'s training documents doesn't get assigned zero probability:$$p_{C,i} = \frac{N_{C,i} + \alpha}{N_C + \alpha n}$$where $N_{C,i}$ is the total count of word $i$ across all class-$C$ documents, $N_C$ is the total word count across all class-$C$ documents, and $n$ is the vocabulary size. Combined with the class prior $P(C)$, we predict the class maximizing (in log-space, to avoid underflow):$$\log P(C \mid \mathbf{x}) \;\propto\; \log P(C) + \sum_{i=1}^{n} x_i \log p_{C,i}$$
 """
@@ -113,7 +113,7 @@ model = MultinomialNB(alpha=1.0)
 model.fit(X_train_vec, y_train)
 y_pred = model.predict(X_test_vec)
 
-"""### <font color = "orange"> Q8. Evaluate the test set using your custom Multinomial NB classifier and report accuracy, precision, recall, and confusion matrix. (2 Marks)"""
+"""### Evaluate the test set using your custom Multinomial NB classifier and report accuracy, precision, recall, and confusion matrix."""
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
@@ -128,7 +128,7 @@ print("Recall   :", recall)
 print("Confusion Matrix:")
 print(cm)
 
-"""### <font color = "orange"> Q9. Using scikit-learn's implementation of Multinomial NB, fit the training data and evaluate on the test set. How does the performance of this model compare with your custom implementation? (2 Marks)"""
+"""### Using scikit-learn's implementation of Multinomial NB, fit the training data and evaluate on the test set. How does the performance of this model compare with your custom implementation?"""
 
 from sklearn.naive_bayes import MultinomialNB
 
